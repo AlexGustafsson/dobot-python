@@ -1,5 +1,6 @@
 import serial
 import struct
+import threading
 from time import sleep
 
 from message import Message
@@ -7,6 +8,9 @@ from message import Message
 
 class Dobot:
     def __init__(self, port):
+        threading.Thread.__init__(self)
+        self.lock = threading.Lock()
+
         self.serial = serial.Serial(
             port=port,
             baudrate=115200,
@@ -16,48 +20,53 @@ class Dobot:
             timeout=1
         )
 
+    def send(self, message):
+        self.lock.acquire()
+        self.serial.write(message)
+        self.lock.release()
+
     def connected(self):
         return self.serial.isOpen()
 
     def get_device_serial_number(self):
         request = Message([0xAA, 0xAA], 2, 0, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         return response.get_param_as_string()
 
     def set_device_serial_number(self, serial_number):
         request = Message([0xAA, 0xAA], 2, 0, 1, 0, list(serial_number.encode('ascii')) + [0x00])
-        self.serial.write(request.package())
+        self.send(request.package())
         Message.read(self.serial)
 
     def get_device_name(self):
         request = Message([0xAA, 0xAA], 2, 1, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         return response.get_param_as_string()
 
     def set_device_name(self, device_name):
         request = Message([0xAA, 0xAA], 2, 1, 1, 0, list(device_name.encode('ascii')) + [0x00])
-        self.serial.write(request.package())
+        self.send(request.package())
         Message.read(self.serial)
 
     def get_device_version(self):
         request = Message([0xAA, 0xAA], 2, 2, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         return response.params[0:3]
 
     def get_pose(self):
         request = Message([0xAA, 0xAA], 2, 10, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
-        print(response.params, response.length)
+        print(response.params, response.length, request.id, response.id)
         return struct.unpack('ffffffff', bytes(response.params))
 
     def home(self, wait=True):
         is_queued = 1 if wait else 0
         request = Message([0xAA, 0xAA], 2, 31, 1, is_queued, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))[0]
@@ -67,7 +76,7 @@ class Dobot:
     def move_to(self, x, y, z, r, wait=True, mode=2):
         is_queued = 1 if wait else 0
         request = Message([0xAA, 0xAA], 2, 84, 1, is_queued, [mode] + list(struct.pack('<ffff', x, y, z, r)))
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))[0]
@@ -79,7 +88,7 @@ class Dobot:
 
     def get_joint_paramaters(self):
         request = Message([0xAA, 0xAA], 2, 83, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         return struct.unpack('<ff', bytes(response.params))
 
@@ -89,7 +98,7 @@ class Dobot:
 
         is_queued = 1 if wait else 0
         request = Message([0xAA, 0xAA], 2, 83, 1, is_queued, list(struct.pack('<ff', velocity_ratio, acceleration_ratio)))
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))[0]
@@ -98,7 +107,7 @@ class Dobot:
 
     def get_laser_state(self):
         request = Message([0xAA, 0xAA], 2, 61, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         control_enabled = True if response.params[0] == 1 else False
         laser_enabled = True if response.params[1] == 1 else False
@@ -107,7 +116,7 @@ class Dobot:
     def set_laser_state(self, enable_control, enable_laser, wait=True):
         is_queued = 1 if wait else 0
         request = Message([0xAA, 0xAA], 2, 61, 1, is_queued, [int(enable_control), int(enable_laser)])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))[0]
@@ -123,7 +132,7 @@ class Dobot:
     def move_in_circle(self, start_point, end_point, wait=True):
         is_queued = 1 if wait else 0
         request = Message([0xAA, 0xAA], 2, 101, 1, is_queued, list(struct.pack('ffff', *start_point)) + list(struct.pack('ffff', *end_point)))
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))[0]
@@ -132,7 +141,7 @@ class Dobot:
 
     def get_queue_index(self):
         request = Message([0xAA, 0xAA], 2, 246, 0, 0, [])
-        self.serial.write(request.package())
+        self.send(request.package())
         response = Message.read(self.serial)
         if response is None:
             return None
