@@ -1,5 +1,6 @@
 import serial
 import struct
+from time import sleep
 
 from message import Message
 
@@ -50,6 +51,7 @@ class Dobot:
         request = Message([0xAA, 0xAA], 2, 10, 0, 0, [])
         self.serial.write(request.package())
         response = Message.read(self.serial)
+        print(response.params, response.length)
         return struct.unpack('ffffffff', bytes(response.params))
 
     def home(self, wait=True):
@@ -58,7 +60,7 @@ class Dobot:
         self.serial.write(request.package())
         response = Message.read(self.serial)
         if is_queued:
-            queue_index = struct.unpack('L', bytes(response.params))
+            queue_index = struct.unpack('L', bytes(response.params))[0]
             return queue_index
         return None
 
@@ -68,7 +70,7 @@ class Dobot:
         self.serial.write(request.package())
         response = Message.read(self.serial)
         if is_queued:
-            queue_index = struct.unpack('L', bytes(response.params))
+            queue_index = struct.unpack('L', bytes(response.params))[0]
             return queue_index
         return None
 
@@ -90,7 +92,7 @@ class Dobot:
         self.serial.write(request.package())
         response = Message.read(self.serial)
         if is_queued:
-            queue_index = struct.unpack('L', bytes(response.params))
+            queue_index = struct.unpack('L', bytes(response.params))[0]
             return queue_index
         return None
 
@@ -108,7 +110,7 @@ class Dobot:
         self.serial.write(request.package())
         response = Message.read(self.serial)
         if is_queued:
-            queue_index = struct.unpack('L', bytes(response.params))
+            queue_index = struct.unpack('L', bytes(response.params))[0]
             return queue_index
         return None
 
@@ -124,6 +126,22 @@ class Dobot:
         self.serial.write(request.package())
         response = Message.read(self.serial)
         if is_queued:
-            queue_index = struct.unpack('L', bytes(response.params))
+            queue_index = struct.unpack('L', bytes(response.params))[0]
             return queue_index
         return None
+
+    def get_queue_index(self):
+        request = Message([0xAA, 0xAA], 2, 246, 0, 0, [])
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        if response is None:
+            return None
+        return struct.unpack('L', bytes(response.params))[0]
+
+    def wait(self):
+        queue_index = self.get_queue_index()
+        while True:
+            current_queue_index = self.get_queue_index()
+            if current_queue_index != queue_index:
+                break
+            sleep(0.1)
