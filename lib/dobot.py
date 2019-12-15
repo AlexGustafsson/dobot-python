@@ -69,3 +69,22 @@ class Dobot:
 
     def move_to_relative(self, x, y, z, r, wait=True):
         return self.move_to(x, y, z, r, wait, 8)
+
+    def get_joint_paramaters(self):
+        request = Message([0xAA, 0xAA], 2, 83, 0, 0, [])
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        return struct.unpack('<ff', bytes(response.params))
+
+    def set_joint_parameters(self, velocity_ratio, acceleration_ratio, wait=True):
+        if acceleration_ratio <= 0:
+            return None
+
+        is_queued = 1 if wait else 0
+        request = Message([0xAA, 0xAA], 2, 83, 1, is_queued, list(struct.pack('<ff', velocity_ratio, acceleration_ratio)))
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        if is_queued:
+            queue_index = struct.unpack('L', bytes(response.params))
+            return queue_index
+        return None
