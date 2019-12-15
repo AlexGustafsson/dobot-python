@@ -64,4 +64,5 @@ class Dobot:
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))
-            print(queue_index)
+            return queue_index
+        return None
