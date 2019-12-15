@@ -8,6 +8,7 @@ bot = Dobot('/dev/tty.usbserial-0001')
 # Reset
 bot.stop_queue()
 bot.clear_queue()
+bot.disable_laser()
 bot.start_queue()
 
 bot.home()
@@ -19,24 +20,31 @@ print(start_pose)
 # Be fast
 bot.set_joint_parameters(500, 50)
 
+scale = 20
+
 # Move down
-bot.move_to_relative(0, 0, -120, 0)
+bot.move_to_relative(0, 0, -118, 0)
 bot.wait()
 
 # Go slow
-bot.set_joint_parameters(5000, 1)
+bot.set_joint_parameters(2000, 100)
 
 # Draw smile
-steps = 60
-scale = 20
+bot.set_continous_joint_parameters(10, 10, 10)
+bot.stop_queue()
+bot.enable_laser()
+steps = 24
 draw_pos = bot.get_pose()
-for i in range(steps):
-    x = math.cos(((2 * math.pi) / steps) * i)
-    y = math.sin(((2 * math.pi) / steps) * i)
-    print(x, y)
+bot.stop_queue()
+for i in range(steps + 1):
+    x = math.cos(((0.5 * math.pi) / steps) * i)
+    y = math.sin(((0.5 * math.pi) / steps) * i)
 
-    bot.move_to(draw_pos[0] + y * scale, draw_pos[1] + x * scale, draw_pos[2], draw_pos[3])
-    bot.wait()
+    bot.move_to_continous(draw_pos[0] + y * scale, draw_pos[1] + x * scale, draw_pos[2])
+bot.disable_laser()
+bot.start_queue()
+bot.wait()
+sleep(0.1)
 
 # Be fast
 bot.set_joint_parameters(500, 50)
