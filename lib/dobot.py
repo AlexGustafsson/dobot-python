@@ -147,6 +147,21 @@ class Dobot:
             return None
         return struct.unpack('L', bytes(response.params))[0]
 
+    def start_queue(self):
+        request = Message([0xAA, 0xAA], 2, 240, 1, 0, [])
+        self.send(request.package())
+        Message.read(self.serial)
+
+    def stop_queue(self):
+        request = Message([0xAA, 0xAA], 2, 242, 1, 0, [])
+        self.send(request.package())
+        Message.read(self.serial)
+
+    def clear_queue(self):
+        request = Message([0xAA, 0xAA], 2, 245, 1, 0, [])
+        self.send(request.package())
+        Message.read(self.serial)
+
     def wait(self):
         queue_index = self.get_queue_index()
         while True:
