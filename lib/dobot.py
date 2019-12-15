@@ -117,3 +117,13 @@ class Dobot:
 
     def disable_laser(self, wait=False):
         return self.set_laser_state(False, False, wait)
+
+    def move_in_circle(self, start_point, end_point, wait=True):
+        is_queued = 1 if wait else 0
+        request = Message([0xAA, 0xAA], 2, 61, 1, is_queued, list(struct.pack('ffff', *start_point)) + list(struct.pack('ffff', *end_point)))
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        if is_queued:
+            queue_index = struct.unpack('L', bytes(response.params))
+            return queue_index
+        return None
