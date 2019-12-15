@@ -88,3 +88,27 @@ class Dobot:
             queue_index = struct.unpack('L', bytes(response.params))
             return queue_index
         return None
+
+    def get_laser_state(self):
+        request = Message([0xAA, 0xAA], 2, 61, 0, 0, [])
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        control_enabled = True if response.params[0] == 1 else False
+        laser_enabled = True if response.params[1] == 1 else False
+        return [control_enabled, laser_enabled]
+
+    def set_laser_state(self, enable_control, enable_laser, wait=True):
+        is_queued = 1 if wait else 0
+        request = Message([0xAA, 0xAA], 2, 61, 1, is_queued, [int(enable_control), int(enable_laser)])
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        if is_queued:
+            queue_index = struct.unpack('L', bytes(response.params))
+            return queue_index
+        return None
+
+    def enable_laser(self, wait=True):
+        return self.set_laser_state(True, True, wait)
+
+    def disable_laser(self, wait=False):
+        return self.set_laser_state(False, False, wait)

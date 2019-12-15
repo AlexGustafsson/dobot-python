@@ -1,3 +1,5 @@
+from time import sleep
+
 from dobot import Dobot
 
 bot = Dobot('/dev/tty.usbserial-0001')
@@ -25,3 +27,4 @@ bot.move_to(pose[0] - 150, pose[1], pose[2], pose[3])
 bot.move_to(pose[0], pose[1], pose[2], pose[3])
 bot.move_to_relative(0, 20, 0, 0)
 bot.move_to_relative(0, -20, 0, 0)
+bot.disable_laser()
