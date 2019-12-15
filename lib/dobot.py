@@ -52,10 +52,15 @@ class Dobot:
         response = Message.read(self.serial)
         return struct.unpack('ffffffff', bytes(response.params))
 
-    def home(self):
-        request = Message([0xAA, 0xAA], 2, 31, 1, 0, [])
+    def home(self, wait=True):
+        is_queued = 1 if wait else 0
+        request = Message([0xAA, 0xAA], 2, 31, 1, is_queued, [])
         self.serial.write(request.package())
-        Message.read(self.serial)
+        response = Message.read(self.serial)
+        if is_queued:
+            queue_index = struct.unpack('L', bytes(response.params))
+            return queue_index
+        return None
 
     def move_to(self, x, y, z, r, wait=True, mode=2):
         is_queued = 1 if wait else 0
