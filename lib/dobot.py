@@ -125,7 +125,7 @@ class Dobot:
     def enable_laser(self, wait=True):
         return self.set_laser_state(True, True, wait)
 
-    def disable_laser(self, wait=False):
+    def disable_laser(self, wait=True):
         return self.set_laser_state(False, False, wait)
 
     def move_in_circle(self, start_point, end_point, wait=True):
@@ -168,3 +168,23 @@ class Dobot:
             if current_queue_index is not None and current_queue_index != queue_index:
                 break
             sleep(0.1)
+
+    def move_to_continous(self, x, y, z, wait=True):
+        is_queued = 1 if wait else 0
+        request = Message([0xAA, 0xAA], 2, 91, 1, is_queued, [1] + list(struct.pack('ffff', x, y, z, 0)))
+        self.send(request.package())
+        response = Message.read(self.serial)
+        if is_queued:
+            queue_index = struct.unpack('L', bytes(response.params))[0]
+            return queue_index
+        return None
+
+    def set_continous_joint_parameters(self, max_planned_acceleration, max_junction_velocity, period, wait=True):
+        is_queued = 1 if wait else 0
+        request = Message([0xAA, 0xAA], 2, 90, 1, is_queued, list(struct.pack('fff', max_planned_acceleration, max_junction_velocity, period)) + [0])
+        self.send(request.package())
+        response = Message.read(self.serial)
+        if is_queued:
+            queue_index = struct.unpack('L', bytes(response.params))[0]
+            return queue_index
+        return None
