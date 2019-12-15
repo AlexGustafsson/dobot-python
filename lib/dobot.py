@@ -38,3 +38,9 @@ class Dobot:
         request = Message([0xAA, 0xAA], 0x2, 1, 1, 0, list(device_name.encode('ascii')) + [0x00])
         self.serial.write(request.package())
         Message.read(self.serial)
+
+    def get_device_version(self):
+        request = Message([0xAA, 0xAA], 0x2, 2, 0, 0, [])
+        self.serial.write(request.package())
+        response = Message.read(self.serial)
+        return response.params[0:3]
