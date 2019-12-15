@@ -57,12 +57,15 @@ class Dobot:
         self.serial.write(request.package())
         Message.read(self.serial)
 
-    def move_to(self, x, y, z, r, wait=True):
+    def move_to(self, x, y, z, r, wait=True, mode=2):
         is_queued = 1 if wait else 0
-        request = Message([0xAA, 0xAA], 2, 84, 1, is_queued, [2] + list(struct.pack('<ffff', x, y, z, r)))
+        request = Message([0xAA, 0xAA], 2, 84, 1, is_queued, [mode] + list(struct.pack('<ffff', x, y, z, r)))
         self.serial.write(request.package())
         response = Message.read(self.serial)
         if is_queued:
             queue_index = struct.unpack('L', bytes(response.params))
             return queue_index
         return None
+
+    def move_to_relative(self, x, y, z, r, wait=True):
+        return self.move_to(x, y, z, r, wait, 8)
