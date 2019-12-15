@@ -16,8 +16,7 @@ class Dobot:
             baudrate=115200,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
-            bytesize=serial.EIGHTBITS,
-            timeout=1
+            bytesize=serial.EIGHTBITS
         )
 
     def send(self, message):
@@ -166,6 +165,6 @@ class Dobot:
         queue_index = self.get_queue_index()
         while True:
             current_queue_index = self.get_queue_index()
-            if current_queue_index != queue_index:
+            if current_queue_index is not None and current_queue_index != queue_index:
                 break
             sleep(0.1)
