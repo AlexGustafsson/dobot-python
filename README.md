@@ -55,13 +55,13 @@ The download server has been terrible, dropping downloads a few seconds in or re
 
 Once I was able to access their Magician Studio for macOS - it was all in Chinese without any real option to change language. I have been unable to try the Windows version due to the aforementioned issues with their website.
 
-I was, however, able to access an API reference for their serial communication protocol which was well written and concise - so I decided to implement the protocol myself.
+I was, however, able to access an API reference for their serial communication protocol which contained a lot of typos, duplicates, faulty numbers. But it was concise - so I decided to implement the protocol myself.
 
 Previous art is https://github.com/luismesas/pydobot which implements a small subset of the protocol.
 
 ### Documentation
 
-This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version.
+This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version. It is able to parse the entirety of the API.
 
 As often as possible, the names for functions, parameters etc. follow those documented in the communication protocol. There are convenience methods, such as `enable_laser` which is an alias to `set_laser_state`.
 
