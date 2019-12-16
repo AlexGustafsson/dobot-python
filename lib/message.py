@@ -1,11 +1,19 @@
+import parsers
+
+
 class Message:
-    def __init__(self, header, length, id, rw, is_queued, params):
+    def __init__(self, header, length, id, rw, is_queued, params, direction='in'):
         self.header = header
         self.length = length
         self.id = id
         self.rw = rw
         self.is_queued = is_queued
-        self.params = params
+        if direction == 'in':
+            self.raw_params = params
+            self.params = Message.parse_params(params, 'in')
+        elif direction == 'out':
+            self.params = params
+            self.raw_params = Message.parse_params(params, 'out')
 
     @staticmethod
     def calculate_checksum(payload):
@@ -41,6 +49,25 @@ class Message:
             return None
 
     @staticmethod
+    def parse_params(message, direction):
+        parser = parsers[message.id]
+
+        if direction == 'in':
+            if parser is None:
+                return None
+            elif message.rw == 0 and message.is_queued == 0:
+                return parser[0](message.raw_params)
+            elif message.rw == 1 and message.is_queued == 0:
+                return parser[1](message.raw_params)
+            elif message.rw == 1 and message.is_queued == 1:
+                return parser[2](message.raw_params)
+        elif direction == 'out':
+            if parser is None:
+                return []
+            elif direction == 'out' and message.rw == 1:
+                return parser[3](message.params)
+
+    @staticmethod
     def read(serial):
         header = serial.read(2)
         if header != b'\xaa\xaa':
@@ -60,6 +87,3 @@ class Message:
         result = bytes(self.header + [self.length] + [self.id] + [control] + self.params + [self.checksum])
 
         return result
-
-    def get_param_as_string(self):
-        return ''.join([chr(x) for x in self.params])
