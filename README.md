@@ -61,7 +61,7 @@ Previous art is https://github.com/luismesas/pydobot which implements a small su
 
 ### Documentation
 
-This library is currently actively being developed. It targets the Dobot Magician Communication Protocol v1.1.5 which is the latest version.
+This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version.
 
 As often as possible, the names for functions, parameters etc. follow those documented in the communication protocol. There are convenience methods, such as `enable_laser` which is an alias to `set_laser_state`.
 
