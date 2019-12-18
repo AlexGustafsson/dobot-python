@@ -8,6 +8,9 @@ class Message:
         self.id = id
         self.rw = rw
         self.is_queued = is_queued
+        self.raw_params = []
+        self.params = []
+
         if direction == 'in':
             self.raw_params = params
             self.params = self.parse_params('in')
@@ -53,7 +56,6 @@ class Message:
         header = serial.read(2)
         if header != b'\xaa\xaa':
             return None
-
         length = int.from_bytes(serial.read(1), 'little')
         payload = serial.read(length)
         checksum = serial.read(1)
@@ -69,7 +71,7 @@ class Message:
             elif self.rw == 0 and self.is_queued == 0:
                 return parser[0](self.raw_params)
             elif self.rw == 1 and self.is_queued == 0:
-                return parser[1](self.raw_params)
+                return parser[0](self.raw_params)
             elif self.rw == 1 and self.is_queued == 1:
                 return parser[2](self.raw_params)
             else:
@@ -83,7 +85,7 @@ class Message:
                 return []
 
     def package(self):
-        self.length = 2 + len(self.params)
+        self.length = 2 + len(self.raw_params)
         control = int('000000' + str(int(self.is_queued)) + str(int(self.rw)), 2)
         self.checksum = Message.calculate_checksum([self.id] + [control] + self.raw_params)
 

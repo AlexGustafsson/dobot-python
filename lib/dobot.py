@@ -21,8 +21,9 @@ class Dobot:
     def send(self, message):
         self.lock.acquire()
         self.serial.write(message.package())
-        self.lock.release()
+        self.serial.flush()
         response = Message.read(self.serial)
+        self.lock.release()
         return response.params
 
     def connected(self):
@@ -52,7 +53,7 @@ class Dobot:
         request = Message([0xAA, 0xAA], 2, 3, True, False, [], direction='out')
         return self.send(request)
 
-    # Time in milliseconds since start?
+    # Time in milliseconds since start
     def get_device_time(self):
         request = Message([0xAA, 0xAA], 2, 4, False, False, [], direction='out')
         return self.send(request)

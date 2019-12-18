@@ -33,14 +33,14 @@ parsers = {
     21: [None, None, None, None],
     # Homing function
     30: [lambda x: struct.unpack('<' + 'f' * 4, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 4, *x))],
-    31: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<f', *x))],
+    31: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B', *x))],
     32: [lambda x: struct.unpack('<Bf', bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bf', *x))],
     # Handhold teaching
     40: [lambda x: x[0], None, None, lambda x: list(struct.pack('<B', *x))],
     41: [lambda x: x[0] == 1, None, None, lambda x: list(struct.pack('<B', *x))],
     42: [lambda x: x[0] == 1, None, None, None],
     # End effector
-    60: [lambda x: struct.unpack('<f' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<ffff', *x))],
+    60: [lambda x: struct.unpack('<' + 'f' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 4, *x))],
     61: [lambda x: (x[0] == 1, x[1] == 2), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BB', *x))],
     62: [lambda x: (x[0] == 1, x[1] == 2), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BB', *x))],
     63: [lambda x: (x[0] == 1, x[1] == 2), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BB', *x))],
@@ -58,7 +58,7 @@ parsers = {
     84: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bffff', *x))],
     85: [lambda x: struct.unpack('<' + 'f' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 2, *x))],
     86: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bfffff', *x))],
-    87: [lambda x: struct.unpack('<f' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<f' * 3, *x))],
+    87: [lambda x: struct.unpack('<' + 'f' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 3, *x))],
     88: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bffff', *x))],
     89: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bfffff', *x))],
     # Continuous path
@@ -73,14 +73,14 @@ parsers = {
     # Triggers
     120: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BBBH', *x))],
     # EIO
-    130: [lambda x: struct.unpack('<B' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B' * 2, *x))],
-    131: [lambda x: struct.unpack('<B' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B' * 2, *x))],
+    130: [lambda x: struct.unpack('<B' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'B' * 2, *x))],
+    131: [lambda x: struct.unpack('<B' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'B' * 2, *x))],
     132: [lambda x: struct.unpack('<Bff', bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bff', *x))],
     133: [lambda x: struct.unpack('<B' * 2, bytearray(x)), None, None, None],
     134: [lambda x: struct.unpack('<BH', bytearray(x)), None, None, None],
     135: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<BBf', *x))],
-    137: [lambda x: struct.unpack('<B' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B' * 3, *x))],
-    138: [lambda x: struct.unpack('<B', bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B' * 3, *x))],
+    137: [lambda x: struct.unpack('<B' * 3, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'B' * 3, *x))],
+    138: [lambda x: struct.unpack('<B', bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'B' * 3, *x))],
     # Calibration
     140: [lambda x: struct.unpack('<' + 'f' * 2, bytearray(x)), None, None, lambda x: list(struct.pack('<' + 'f' * 2, *x))],
     # Wifi
