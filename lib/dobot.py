@@ -29,11 +29,11 @@ class Dobot:
         return self.serial.isOpen()
 
     def get_device_serial_number(self):
-        request = Message([0xAA, 0xAA], 2, False, False, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 0, False, False, [], direction='out')
         return self.send(request)
 
     def set_device_serial_number(self, serial_number):
-        request = Message([0xAA, 0xAA], 2, 0, 1, 0, [serial_number], direction='out')
+        request = Message([0xAA, 0xAA], 2, 0, True, False, [serial_number], direction='out')
         return self.send(request)
 
     def get_device_name(self):
@@ -41,7 +41,7 @@ class Dobot:
         return self.send(request)
 
     def set_device_name(self, device_name):
-        request = Message([0xAA, 0xAA], 2, 1, 1, 0, [device_name], direction='out')
+        request = Message([0xAA, 0xAA], 2, 1, True, False, [device_name], direction='out')
         return self.send(request)
 
     def get_device_version(self):
@@ -49,7 +49,7 @@ class Dobot:
         return self.send(request)
 
     def set_sliding_rail_status(self, enable, version):
-        request = Message([0xAA, 0xAA], 2, 3, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 3, True, False, [], direction='out')
         return self.send(request)
 
     # Time in milliseconds since start?
@@ -66,7 +66,7 @@ class Dobot:
         return self.send(request)
 
     def reset_pose(self, manual, rear_arm_angle, front_arm_angle):
-        request = Message([0xAA, 0xAA], 2, 11, 1, 0, [manual, rear_arm_angle, front_arm_angle], direction='out')
+        request = Message([0xAA, 0xAA], 2, 11, True, False, [manual, rear_arm_angle, front_arm_angle], direction='out')
         return self.send(request)
 
     def get_sliding_rail_pose(self):
@@ -78,7 +78,7 @@ class Dobot:
         return self.send(request)
 
     def clear_alarms_state(self):
-        request = Message([0xAA, 0xAA], 2, 21, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 21, True, False, [], direction='out')
         return self.send(request)
 
     def get_homing_paramaters(self):
@@ -106,7 +106,7 @@ class Dobot:
         return self.send(request)
 
     def set_handheld_teaching_mode(self, mode):
-        request = Message([0xAA, 0xAA], 2, 40, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 40, True, False, [], direction='out')
         return self.send(request)
 
     def get_handheld_teaching_state(self):
@@ -114,7 +114,7 @@ class Dobot:
         return self.send(request)
 
     def set_handheld_teaching_state(self, enable):
-        request = Message([0xAA, 0xAA], 2, 41, 1, 0, [enable], direction='out')
+        request = Message([0xAA, 0xAA], 2, 41, True, False, [enable], direction='out')
         return self.send(request)
 
     def get_handheld_teaching_trigger(self):
@@ -126,7 +126,7 @@ class Dobot:
         return self.send(request)
 
     def set_end_effector_params(self, bias_x, bias_y, bias_z):
-        request = Message([0xAA, 0xAA], 2, 60, 1, 0, [bias_x, bias_y, bias_z], direction='out')
+        request = Message([0xAA, 0xAA], 2, 60, True, False, [bias_x, bias_y, bias_z], direction='out')
         return self.send(request)
 
     def get_end_effector_laser(self):
@@ -357,7 +357,7 @@ class Dobot:
         return self.send(request)
 
     def set_angle_sensor_static_error(self, index, rear_arm_angle_error, front_arm_angle_error):
-        request = Message([0xAA, 0xAA], 2, 140, 1, 0, [rear_arm_angle_error, front_arm_angle_error], direction='out')
+        request = Message([0xAA, 0xAA], 2, 140, True, False, [rear_arm_angle_error, front_arm_angle_error], direction='out')
         return self.send(request)
 
     def get_wifi_status(self):
@@ -365,7 +365,7 @@ class Dobot:
         return self.send(request)
 
     def set_wifi_status(self, index, enable):
-        request = Message([0xAA, 0xAA], 2, 150, 1, 0, [enable], direction='out')
+        request = Message([0xAA, 0xAA], 2, 150, True, False, [enable], direction='out')
         return self.send(request)
 
     def get_wifi_ssid(self):
@@ -373,7 +373,7 @@ class Dobot:
         return self.send(request)
 
     def set_wifi_ssid(self, index, ssid):
-        request = Message([0xAA, 0xAA], 2, 151, 1, 0, [ssid], direction='out')
+        request = Message([0xAA, 0xAA], 2, 151, True, False, [ssid], direction='out')
         return self.send(request)
 
     def get_wifi_password(self):
@@ -381,7 +381,7 @@ class Dobot:
         return self.send(request)
 
     def set_wifi_password(self, index, ssid):
-        request = Message([0xAA, 0xAA], 2, 152, 1, 0, [ssid], direction='out')
+        request = Message([0xAA, 0xAA], 2, 152, True, False, [ssid], direction='out')
         return self.send(request)
 
     def get_wifi_address(self):
@@ -390,7 +390,7 @@ class Dobot:
 
     # 192.168.1.1 = a.b.c.d
     def set_wifi_address(self, index, use_dhcp, a, b, c, d):
-        request = Message([0xAA, 0xAA], 2, 153, 1, 0, [use_dhcp, a, b, c, d], direction='out')
+        request = Message([0xAA, 0xAA], 2, 153, True, False, [use_dhcp, a, b, c, d], direction='out')
         return self.send(request)
 
     def get_wifi_netmask(self):
@@ -399,7 +399,7 @@ class Dobot:
 
     # 255.255.255.0 = a.b.c.d
     def set_wifi_netmask(self, index, a, b, c, d):
-        request = Message([0xAA, 0xAA], 2, 154, 1, 0, [a, b, c, d], direction='out')
+        request = Message([0xAA, 0xAA], 2, 154, True, False, [a, b, c, d], direction='out')
         return self.send(request)
 
     def get_wifi_gateway(self):
@@ -408,7 +408,7 @@ class Dobot:
 
     # 192.168.1.1 = a.b.c.d
     def set_wifi_gateway(self, index, use_dhcp, a, b, c, d):
-        request = Message([0xAA, 0xAA], 2, 155, 1, 0, [use_dhcp, a, b, c, d], direction='out')
+        request = Message([0xAA, 0xAA], 2, 155, True, False, [use_dhcp, a, b, c, d], direction='out')
         return self.send(request)
 
     def get_wifi_dns(self):
@@ -417,7 +417,7 @@ class Dobot:
 
     # 192.168.1.1 = a.b.c.d
     def set_wifi_dns(self, index, use_dhcp, a, b, c, d):
-        request = Message([0xAA, 0xAA], 2, 156, 1, 0, [use_dhcp, a, b, c, d], direction='out')
+        request = Message([0xAA, 0xAA], 2, 156, True, False, [use_dhcp, a, b, c, d], direction='out')
         return self.send(request)
 
     def get_wifi_connect_status(self):
@@ -425,33 +425,33 @@ class Dobot:
         return self.send(request)
 
     def set_lost_step_params(self, param):
-        request = Message([0xAA, 0xAA], 2, 170, 1, 0, [param], direction='out')
+        request = Message([0xAA, 0xAA], 2, 170, True, False, [param], direction='out')
         return self.send(request)
 
     def set_lost_step_command(self):
-        request = Message([0xAA, 0xAA], 2, 171, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 171, True, False, [], direction='out')
         return self.send(request)
 
     def start_queue(self):
-        request = Message([0xAA, 0xAA], 2, 240, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 240, True, False, [], direction='out')
         return self.send(request)
 
     def stop_queue(self, force=False):
-        request = Message([0xAA, 0xAA], 2, 242 if force else 241, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 242 if force else 241, True, False, [], direction='out')
         return self.send(request)
 
     def start_queue_download(self, total_loop, line_per_loop):
-        request = Message([0xAA, 0xAA], 2, 243, 1, 0, [total_loop, line_per_loop], direction='out')
+        request = Message([0xAA, 0xAA], 2, 243, True, False, [total_loop, line_per_loop], direction='out')
         return self.send(request)
 
     def stop_queue_download(self):
-        request = Message([0xAA, 0xAA], 2, 244, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 244, True, False, [], direction='out')
         return self.send(request)
 
     def clear_queue(self):
-        request = Message([0xAA, 0xAA], 2, 245, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 245, True, False, [], direction='out')
         return self.send(request)
 
     def get_current_queue_index(self):
-        request = Message([0xAA, 0xAA], 2, 246, 1, 0, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 246, True, False, [], direction='out')
         return self.send(request)
