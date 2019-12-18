@@ -1,4 +1,4 @@
-import parsers
+from lib.parsers import parsers
 
 
 class Message:
@@ -10,10 +10,10 @@ class Message:
         self.is_queued = is_queued
         if direction == 'in':
             self.raw_params = params
-            self.params = Message.parse_params(params, 'in')
+            self.params = self.parse_params('in')
         elif direction == 'out':
             self.params = params
-            self.raw_params = Message.parse_params(params, 'out')
+            self.raw_params = self.parse_params('out')
 
     @staticmethod
     def calculate_checksum(payload):
@@ -49,25 +49,6 @@ class Message:
             return None
 
     @staticmethod
-    def parse_params(message, direction):
-        parser = parsers[message.id]
-
-        if direction == 'in':
-            if parser is None:
-                return None
-            elif message.rw == 0 and message.is_queued == 0:
-                return parser[0](message.raw_params)
-            elif message.rw == 1 and message.is_queued == 0:
-                return parser[1](message.raw_params)
-            elif message.rw == 1 and message.is_queued == 1:
-                return parser[2](message.raw_params)
-        elif direction == 'out':
-            if parser is None:
-                return []
-            elif direction == 'out' and message.rw == 1:
-                return parser[3](message.params)
-
-    @staticmethod
     def read(serial):
         header = serial.read(2)
         if header != b'\xaa\xaa':
@@ -79,11 +60,33 @@ class Message:
 
         return Message.parse(header + bytes([length]) + payload + checksum)
 
+    def parse_params(self, direction):
+        parser = parsers[self.id]
+
+        if direction == 'in':
+            if parser is None:
+                return None
+            elif self.rw == 0 and self.is_queued == 0:
+                return parser[0](self.raw_params)
+            elif self.rw == 1 and self.is_queued == 0:
+                return parser[1](self.raw_params)
+            elif self.rw == 1 and self.is_queued == 1:
+                return parser[2](self.raw_params)
+            else:
+                return []
+        elif direction == 'out':
+            if parser is None:
+                return []
+            elif direction == 'out' and self.rw == 1:
+                return parser[3](self.params)
+            else:
+                return []
+
     def package(self):
         self.length = 2 + len(self.params)
         control = int('000000' + str(self.is_queued) + str(self.rw), 2)
-        self.checksum = Message.calculate_checksum([self.id] + [control] + self.params)
+        self.checksum = Message.calculate_checksum([self.id] + [control] + self.raw_params)
 
-        result = bytes(self.header + [self.length] + [self.id] + [control] + self.params + [self.checksum])
+        result = bytes(self.header + [self.length] + [self.id] + [control] + self.raw_params + [self.checksum])
 
         return result
