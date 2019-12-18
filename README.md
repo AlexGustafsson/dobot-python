@@ -30,19 +30,15 @@ pose = bot.get_pose()
 print('I am currently in the following pose:', pose)
 
 print('I can move slow')
-bot.set_joint_parameters(100, 50)
-bot.move_to(100, 50, 20, 0)
-bot.wait()
+bot.set_jog_joint_params(100, 50)
+bot.set_point_to_point_command(2, 100, 50, 20, 0)
 
 print('And I can move fast')
 bot.set_joint_parameters(2000, 500)
-bot.move_to_relative(20, 0, 0, 0)
-bot.wait()
-bot.move_to_relative(-20, 0, 0, 0)
-bot.wait()
+bot.set_jog_command(1, 1)
 
 print('I even have a laser!')
-bot.enable_laser()
+bot.set_end_effector_laser(True, True)
 ```
 
 ### Motivation
@@ -61,11 +57,17 @@ Previous art is https://github.com/luismesas/pydobot which implements a small su
 
 ### Documentation
 
-This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version. It is able to parse the entirety of the API.
+This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version. It implements the entire protocol.
 
-As often as possible, the names for functions, parameters etc. follow those documented in the communication protocol. There are convenience methods, such as `enable_laser` which is an alias to `set_laser_state`.
+As often as possible, the names for functions, parameters etc. follow those documented in the communication protocol.
 
 For now, refer to the source code as well as the example programs.
+
+##### Roadmap
+
+* [x] <del>Implement the entire reference as a low-level API</del>
+* [x] <del>Create examples for all of the functions</del>
+* [ ] Create a high-level API with abstractions for easy use
 
 ##### Connecting on macOS
 
