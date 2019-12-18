@@ -86,11 +86,11 @@ class Dobot:
         return self.send(request)
 
     def set_homing_parameters(self, x, y, z, r, queue=True):
-        request = Message([0xAA, 0xAA], 2, 30, 1, queue, [x, y, z, r], direction='out')
+        request = Message([0xAA, 0xAA], 2, 30, True, queue, [x, y, z, r], direction='out')
         return self.send(request)
 
     def set_homing_command(self, command, queue=True):
-        request = Message([0xAA, 0xAA], 2, 31, 1, queue, [command], direction='out')
+        request = Message([0xAA, 0xAA], 2, 31, True, queue, [command], direction='out')
         return self.send(request)
 
     def get_auto_leveling(self):
@@ -98,7 +98,7 @@ class Dobot:
         return self.send(request)
 
     def set_auto_leveling(self, enable, accuracy, queue=True):
-        request = Message([0xAA, 0xAA], 2, 32, 1, queue, [enable, accuracy], direction='out')
+        request = Message([0xAA, 0xAA], 2, 32, True, queue, [enable, accuracy], direction='out')
         return self.send(request)
 
     def get_handheld_teaching_mode(self):
@@ -134,7 +134,7 @@ class Dobot:
         return self.send(request)
 
     def set_end_effector_laser(self, enable_control, enable_laser, queue=True):
-        request = Message([0xAA, 0xAA], 2, 61, 1, queue, [enable_control, enable_laser], direction='out')
+        request = Message([0xAA, 0xAA], 2, 61, True, queue, [enable_control, enable_laser], direction='out')
         return self.send(request)
 
     def get_end_effector_suction_cup(self):
@@ -142,7 +142,7 @@ class Dobot:
         return self.send(request)
 
     def set_end_effector_suction_cup(self, enable_control, enable_suction, queue=True):
-        request = Message([0xAA, 0xAA], 2, 62, 1, queue, [enable_control, enable_suction], direction='out')
+        request = Message([0xAA, 0xAA], 2, 62, True, queue, [enable_control, enable_suction], direction='out')
         return self.send(request)
 
     def get_end_effector_gripper(self):
@@ -150,7 +150,7 @@ class Dobot:
         return self.send(request)
 
     def set_end_effector_gripper(self, enable_control, enable_grip, queue=True):
-        request = Message([0xAA, 0xAA], 2, 63, 1, queue, [enable_control, enable_grip], direction='out')
+        request = Message([0xAA, 0xAA], 2, 63, True, queue, [enable_control, enable_grip], direction='out')
         return self.send(request)
 
     def get_jog_joint_params(self):
@@ -158,7 +158,7 @@ class Dobot:
         return self.send(request)
 
     def set_jog_joint_params(self, velocity, acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 70, 1, queue, velocity + acceleration, direction='out')
+        request = Message([0xAA, 0xAA], 2, 70, True, queue, velocity + acceleration, direction='out')
         return self.send(request)
 
     def get_jog_coordinate_params(self):
@@ -166,7 +166,7 @@ class Dobot:
         return self.send(request)
 
     def set_jog_coordinate_params(self, velocity, acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 71, 1, queue, velocity + acceleration, direction='out')
+        request = Message([0xAA, 0xAA], 2, 71, True, queue, velocity + acceleration, direction='out')
         return self.send(request)
 
     def get_jog_common_params(self):
@@ -174,11 +174,11 @@ class Dobot:
         return self.send(request)
 
     def set_jog_common_params(self, velocity_ratio, acceleration_ratio, queue=True):
-        request = Message([0xAA, 0xAA], 2, 73, 1, queue, [velocity_ratio, acceleration_ratio], direction='out')
+        request = Message([0xAA, 0xAA], 2, 73, True, queue, [velocity_ratio, acceleration_ratio], direction='out')
         return self.send(request)
 
     def set_jog_command(self, jog_type, command, queue=True):
-        request = Message([0xAA, 0xAA], 2, 73, 1, queue, [jog_type, command], direction='out')
+        request = Message([0xAA, 0xAA], 2, 73, True, queue, [jog_type, command], direction='out')
         return self.send(request)
 
     def get_sliding_rail_jog_params(self):
@@ -186,7 +186,7 @@ class Dobot:
         return self.send(request)
 
     def set_sliding_rail_jog_params(self, velocity, acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 74, 1, queue, [velocity, acceleration], direction='out')
+        request = Message([0xAA, 0xAA], 2, 74, True, queue, [velocity, acceleration], direction='out')
         return self.send(request)
 
     def get_point_to_point_joint_params(self):
@@ -194,7 +194,7 @@ class Dobot:
         return self.send(request)
 
     def set_point_to_point_joint_params(self, velocity, acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 80, 1, queue, velocity + acceleration, direction='out')
+        request = Message([0xAA, 0xAA], 2, 80, True, queue, velocity + acceleration, direction='out')
         return self.send(request)
 
     def get_point_to_point_coordinate_params(self):
@@ -202,7 +202,7 @@ class Dobot:
         return self.send(request)
 
     def set_point_to_point_coordinate_params(self, coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 81, 1, queue, [coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration], direction='out')
+        request = Message([0xAA, 0xAA], 2, 81, True, queue, [coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration], direction='out')
         return self.send(request)
 
     def get_point_to_point_jump_params(self):
@@ -210,7 +210,7 @@ class Dobot:
         return self.send(request)
 
     def set_point_to_point_jump_params(self, jump_height, z_limit, queue=True):
-        request = Message([0xAA, 0xAA], 2, 82, 1, queue, [jump_height, z_limit], direction='out')
+        request = Message([0xAA, 0xAA], 2, 82, True, queue, [jump_height, z_limit], direction='out')
         return self.send(request)
 
     def get_point_to_point_common_params(self):
@@ -218,11 +218,11 @@ class Dobot:
         return self.send(request)
 
     def set_point_to_point_common_params(self, velocity_ratio, acceleration_ratio, queue=True):
-        request = Message([0xAA, 0xAA], 2, 84, 1, queue, [velocity_ratio, acceleration_ratio], direction='out')
+        request = Message([0xAA, 0xAA], 2, 84, True, queue, [velocity_ratio, acceleration_ratio], direction='out')
         return self.send(request)
 
     def set_point_to_point_command(self, mode, x, y, z, r, queue=True):
-        request = Message([0xAA, 0xAA], 2, 84, 1, queue, [mode, x, y, z, r], direction='out')
+        request = Message([0xAA, 0xAA], 2, 84, True, queue, [mode, x, y, z, r], direction='out')
         return self.send(request)
 
     def get_point_to_point_sliding_rail_params(self):
@@ -230,11 +230,11 @@ class Dobot:
         return self.send(request)
 
     def set_point_to_point_sliding_rail_params(self, velocity, acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 85, 1, queue, [velocity, acceleration], direction='out')
+        request = Message([0xAA, 0xAA], 2, 85, True, queue, [velocity, acceleration], direction='out')
         return self.send(request)
 
     def set_point_to_point_sliding_rail_command(self, mode, x, y, z, r, l, queue=True):
-        request = Message([0xAA, 0xAA], 2, 86, 1, queue, [mode, x, y, z, r, l], direction='out')
+        request = Message([0xAA, 0xAA], 2, 86, True, queue, [mode, x, y, z, r, l], direction='out')
         return self.send(request)
 
     def get_point_to_point_jump2_params(self):
@@ -242,15 +242,15 @@ class Dobot:
         return self.send(request)
 
     def set_point_to_point_jump2_params(self, start_height, end_height, z_limit, queue=True):
-        request = Message([0xAA, 0xAA], 2, 87, 1, queue, [start_height, end_height, z_limit], direction='out')
+        request = Message([0xAA, 0xAA], 2, 87, True, queue, [start_height, end_height, z_limit], direction='out')
         return self.send(request)
 
     def set_point_to_point_po_command(self, mode, x, y, z, r, queue=True):
-        request = Message([0xAA, 0xAA], 2, 88, 1, queue, [mode, x, y, z, r], direction='out')
+        request = Message([0xAA, 0xAA], 2, 88, True, queue, [mode, x, y, z, r], direction='out')
         return self.send(request)
 
     def set_point_to_point_sliding_rail_po_command(self, ratio, address, level, queue=True):
-        request = Message([0xAA, 0xAA], 2, 89, 1, queue, [ratio, address, level], direction='out')
+        request = Message([0xAA, 0xAA], 2, 89, True, queue, [ratio, address, level], direction='out')
         return self.send(request)
 
     def get_continous_trajectory_params(self):
@@ -258,19 +258,19 @@ class Dobot:
         return self.send(request)
 
     def set_continous_trajectory_params(self, max_planned_acceleration, max_junction_velocity, acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 90, 1, queue, [max_planned_acceleration, max_junction_velocity, acceleration, 0], direction='out')
+        request = Message([0xAA, 0xAA], 2, 90, True, queue, [max_planned_acceleration, max_junction_velocity, acceleration, 0], direction='out')
         return self.send(request)
 
     def set_continous_trajectory_real_time_params(self, max_planned_acceleration, max_junction_velocity, period, queue=True):
-        request = Message([0xAA, 0xAA], 2, 90, 1, queue, [max_planned_acceleration, max_junction_velocity, period, 1], direction='out')
+        request = Message([0xAA, 0xAA], 2, 90, True, queue, [max_planned_acceleration, max_junction_velocity, period, 1], direction='out')
         return self.send(request)
 
     def set_continous_trajectory_command(self, mode, x, y, z, velocity, queue=True):
-        request = Message([0xAA, 0xAA], 2, 91, 1, queue, [mode, x, y, z, velocity], direction='out')
+        request = Message([0xAA, 0xAA], 2, 91, True, queue, [mode, x, y, z, velocity], direction='out')
         return self.send(request)
 
     def set_continous_trajectory_laser_engraver_command(self, mode, x, y, z, power, queue=True):
-        request = Message([0xAA, 0xAA], 2, 92, 1, queue, [mode, x, y, z, power], direction='out')
+        request = Message([0xAA, 0xAA], 2, 92, True, queue, [mode, x, y, z, power], direction='out')
         return self.send(request)
 
     def get_arc_params(self):
@@ -278,21 +278,21 @@ class Dobot:
         return self.send(request)
 
     def set_arc_params(self, coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration, queue=True):
-        request = Message([0xAA, 0xAA], 2, 100, 1, queue, [coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration], direction='out')
+        request = Message([0xAA, 0xAA], 2, 100, True, queue, [coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration], direction='out')
         return self.send(request)
 
     def set_arc_command(self, starting_point, ending_point, queue=True):
-        request = Message([0xAA, 0xAA], 2, 101, 1, queue, starting_point + ending_point, direction='out')
+        request = Message([0xAA, 0xAA], 2, 101, True, queue, starting_point + ending_point, direction='out')
         return self.send(request)
 
     # Named 'wait' in the protocol specification
     def sleep(self, starting_point, milliseconds, queue=True):
-        request = Message([0xAA, 0xAA], 2, 110, 1, queue, [milliseconds], direction='out')
+        request = Message([0xAA, 0xAA], 2, 110, True, queue, [milliseconds], direction='out')
         return self.send(request)
 
     # Named 'wait' in the protocol specification
     def set_trigger_command(self, address, mode, condition, threshold, queue=True):
-        request = Message([0xAA, 0xAA], 2, 120, 1, queue, [address, mode, condition, threshold], direction='out')
+        request = Message([0xAA, 0xAA], 2, 120, True, queue, [address, mode, condition, threshold], direction='out')
         return self.send(request)
 
     def get_io_multiplexing(self):
@@ -300,7 +300,7 @@ class Dobot:
         return self.send(request)
 
     def set_io_multiplexing(self, address, multiplex, queue=True):
-        request = Message([0xAA, 0xAA], 2, 130, 1, queue, [address, multiplex], direction='out')
+        request = Message([0xAA, 0xAA], 2, 130, True, queue, [address, multiplex], direction='out')
         return self.send(request)
 
     def get_io_do(self):
@@ -308,7 +308,7 @@ class Dobot:
         return self.send(request)
 
     def set_io_do(self, address, level, queue=True):
-        request = Message([0xAA, 0xAA], 2, 131, 1, queue, [address, level], direction='out')
+        request = Message([0xAA, 0xAA], 2, 131, True, queue, [address, level], direction='out')
         return self.send(request)
 
     def get_io_pwm(self):
@@ -316,7 +316,7 @@ class Dobot:
         return self.send(request)
 
     def set_io_pwm(self, address, frequency, duty_cycle, queue=True):
-        request = Message([0xAA, 0xAA], 2, 132, 1, queue, [address, frequency, duty_cycle], direction='out')
+        request = Message([0xAA, 0xAA], 2, 132, True, queue, [address, frequency, duty_cycle], direction='out')
         return self.send(request)
 
     def get_io_di(self):
@@ -328,7 +328,7 @@ class Dobot:
         return self.send(request)
 
     def set_extended_motor_velocity(self, index, enable, speed, queue=True):
-        request = Message([0xAA, 0xAA], 2, 135, 1, queue, [index, enable, speed], direction='out')
+        request = Message([0xAA, 0xAA], 2, 135, True, queue, [index, enable, speed], direction='out')
         return self.send(request)
 
     def get_color_sensor(self, index):
@@ -336,7 +336,7 @@ class Dobot:
         return self.send(request)
 
     def set_color_sensor(self, index, enable, port, version, queue=True):
-        request = Message([0xAA, 0xAA], 2, 137, 1, queue, [enable, port, version], direction='out')
+        request = Message([0xAA, 0xAA], 2, 137, True, queue, [enable, port, version], direction='out')
         return self.send(request)
 
     def get_ir_switch(self, index):
@@ -344,7 +344,7 @@ class Dobot:
         return self.send(request)
 
     def set_ir_switch(self, index, enable, port, version, queue=True):
-        request = Message([0xAA, 0xAA], 2, 138, 1, queue, [enable, port, version], direction='out')
+        request = Message([0xAA, 0xAA], 2, 138, True, queue, [enable, port, version], direction='out')
         return self.send(request)
 
     def get_angle_sensor_static_error(self, index):
