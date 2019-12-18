@@ -48,7 +48,7 @@ parsers = {
     70: [lambda x: struct.unpack('<' + 'f' * 8, bytearray(x)), None, None, lambda x: list(struct.pack('<' + 'f' * 8, *x))],
     71: [lambda x: struct.unpack('<' + 'f' * 8, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 8, *x))],
     72: [lambda x: struct.unpack('<' + 'f' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 2, *x))],
-    73: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B' * 2, *x))],
+    73: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'B' * 2, *x))],
     74: [lambda x: struct.unpack('<' + 'f' * 2, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 2, *x))],
     # PTP
     80: [lambda x: struct.unpack('<' + 'f' * 8, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 8, *x))],

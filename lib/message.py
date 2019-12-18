@@ -84,7 +84,7 @@ class Message:
 
     def package(self):
         self.length = 2 + len(self.params)
-        control = int('000000' + str(self.is_queued) + str(self.rw), 2)
+        control = int('000000' + str(int(self.is_queued)) + str(int(self.rw)), 2)
         self.checksum = Message.calculate_checksum([self.id] + [control] + self.raw_params)
 
         result = bytes(self.header + [self.length] + [self.id] + [control] + self.raw_params + [self.checksum])
