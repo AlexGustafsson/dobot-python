@@ -92,8 +92,8 @@ class Dobot:
         request = Message([0xAA, 0xAA], 2, 31, 1, queue, [command])
         return self.send(request)
 
-    def get_auto_leveling(self, queue=True):
-        request = Message([0xAA, 0xAA], 2, 32, 1, queue, [])
+    def get_auto_leveling(self):
+        request = Message([0xAA, 0xAA], 2, 32, 0, 0, [])
         return self.send(request)
 
     def set_auto_leveling(self, enable, accuracy, queue=True):

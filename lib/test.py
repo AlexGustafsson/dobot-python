@@ -1,5 +1,3 @@
-from time import sleep
-
 from dobot import Dobot
 
 bot = Dobot('/dev/tty.usbserial-0001')
@@ -9,22 +7,38 @@ if bot.connected():
 else:
     print('Not connected')
 
+# Device info
 device_name = bot.get_device_name()
-serial_number = bot.get_device_serial_number()
-print(device_name, serial_number)
-bot.set_device_name('Hello')
-device_name = bot.get_device_name()
-print(device_name, serial_number)
-[major, minor, revision] = bot.get_device_version()
-print(major, minor, revision)
+print('Name: {}'.format(device_name))
+
+device_id = bot.get_device_id()
+print('ID: {}'.format(device_id))
+
+device_serial_number = bot.get_device_serial_number()
+print('Serial number: {}'.format(device_serial_number))
+
+[device_version_major, device_version_minor, device_version_revision] = bot.get_device_version()
+print('Version: {}.{}.{}'.format(device_version_major, device_version_minor, device_version_revision))
+
+device_time = bot.get_device_time()
+print('Time: {}'.format(device_time))
+
+# Real-time pose
 pose = bot.get_pose()
-print(pose)
-# bot.home()
-joint_parameters = bot.get_joint_paramaters()
-print(joint_parameters)
-bot.set_joint_parameters(500, 50)
-bot.move_to(pose[0] - 150, pose[1], pose[2], pose[3])
-bot.move_to(pose[0], pose[1], pose[2], pose[3])
-bot.move_to_relative(0, 20, 0, 0)
-bot.move_to_relative(0, -20, 0, 0)
-bot.disable_laser()
+print('Pose:', pose)
+
+bot.reset_pose(True, 0.5, 0.5)
+
+# Alarms
+alarms_state = bot.get_alarms_state()
+print('Alarms:', alarms_state)
+
+# Homing
+homing_parameters = bot.get_homing_paramaters()
+print('Homing parameters:', homing_parameters)
+
+bot.set_homing_command(0)
+print('Homing')
+
+auto_leveling = bot.get_auto_leveling()
+print('Auto leveling:', auto_leveling)
