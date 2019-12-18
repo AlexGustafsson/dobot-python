@@ -33,7 +33,7 @@ parsers = {
     21: [None, None, None, None],
     # Homing function
     30: [lambda x: struct.unpack('<' + 'f' * 4, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 4, *x))],
-    31: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<B', *x))],
+    31: [None, None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<f', *x))],
     32: [lambda x: struct.unpack('<Bf', bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<Bf', *x))],
     # Handhold teaching
     40: [lambda x: x[0], None, None, lambda x: list(struct.pack('<B', *x))],
