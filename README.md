@@ -67,6 +67,14 @@ As often as possible, the names for functions, parameters etc. follow those docu
 
 For now, refer to the source code as well as the example programs.
 
+##### Connecting on macOS
+
+1. Download the latest driver from https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
+2. Connect the USB cable to the arm and computer
+3. Start the arm
+4. Run `ls /dev/ | grep -i usb` in Terminal
+5. Use `tty.SLAB_USBtoUART` or `tty.usbserial.0001` as port
+
 ### Contributing
 
 Any contribution is welcome. If you're not able to code it yourself, perhaps someone else is - so post an issue if there's anything on your mind.
