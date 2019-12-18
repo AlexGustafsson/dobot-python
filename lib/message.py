@@ -63,26 +63,36 @@ class Message:
         return Message.parse(header + bytes([length]) + payload + checksum)
 
     def parse_params(self, direction):
-        parser = parsers[self.id]
+        message_parsers = parsers[self.id]
 
         if direction == 'in':
-            if parser is None:
+            if message_parsers is None:
                 return None
-            elif self.rw == 0 and self.is_queued == 0:
-                return parser[0](self.raw_params)
+
+            parser = None
+            if self.rw == 0 and self.is_queued == 0:
+                parser = message_parsers[0]
             elif self.rw == 1 and self.is_queued == 0:
-                return parser[0](self.raw_params)
+                parser = message_parsers[0]
             elif self.rw == 1 and self.is_queued == 1:
-                return parser[2](self.raw_params)
-            else:
-                return []
-        elif direction == 'out':
+                parser = message_parsers[2]
+
             if parser is None:
                 return []
-            elif direction == 'out' and self.rw == 1:
-                return parser[3](self.params)
-            else:
+
+            return parser(self.raw_params)
+        elif direction == 'out':
+            if message_parsers is None:
                 return []
+
+            parser = None
+            if direction == 'out' and self.rw == 1:
+                parser = message_parsers[3]
+
+            if parser is None:
+                return []
+
+            return parser(self.params)
 
     def package(self):
         self.length = 2 + len(self.raw_params)

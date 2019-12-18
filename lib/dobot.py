@@ -94,6 +94,7 @@ class Dobot:
         request = Message([0xAA, 0xAA], 2, 31, True, queue, [command], direction='out')
         return self.send(request)
 
+    # TODO: Reference is wrong here, arm does not send the said value
     def get_auto_leveling(self):
         request = Message([0xAA, 0xAA], 2, 32, False, False, [], direction='out')
         return self.send(request)
@@ -107,7 +108,7 @@ class Dobot:
         return self.send(request)
 
     def set_handheld_teaching_mode(self, mode):
-        request = Message([0xAA, 0xAA], 2, 40, True, False, [], direction='out')
+        request = Message([0xAA, 0xAA], 2, 40, True, False, [mode], direction='out')
         return self.send(request)
 
     def get_handheld_teaching_state(self):
@@ -287,8 +288,8 @@ class Dobot:
         request = Message([0xAA, 0xAA], 2, 100, True, queue, [coordinate_velocity, effector_velocity, coordinate_acceleration, effector_acceleration], direction='out')
         return self.send(request)
 
-    def set_arc_command(self, starting_point, ending_point, queue=True):
-        request = Message([0xAA, 0xAA], 2, 101, True, queue, starting_point + ending_point, direction='out')
+    def set_arc_command(self, circumference_point, ending_point, queue=True):
+        request = Message([0xAA, 0xAA], 2, 101, True, queue, circumference_point + ending_point, direction='out')
         return self.send(request)
 
     # Named 'wait' in the protocol specification
@@ -296,7 +297,6 @@ class Dobot:
         request = Message([0xAA, 0xAA], 2, 110, True, queue, [milliseconds], direction='out')
         return self.send(request)
 
-    # Named 'wait' in the protocol specification
     def set_trigger_command(self, address, mode, condition, threshold, queue=True):
         request = Message([0xAA, 0xAA], 2, 120, True, queue, [address, mode, condition, threshold], direction='out')
         return self.send(request)
