@@ -291,8 +291,7 @@ class Interface:
         request = Message([0xAA, 0xAA], 2, 101, True, queue, circumference_point + ending_point, direction='out')
         return self.send(request)
 
-    # Named 'wait' in the protocol specification
-    def sleep(self, starting_point, milliseconds, queue=True):
+    def wait(self, milliseconds, queue=True):
         request = Message([0xAA, 0xAA], 2, 110, True, queue, [milliseconds], direction='out')
         return self.send(request)
 

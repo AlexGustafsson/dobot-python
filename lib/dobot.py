@@ -59,10 +59,36 @@ class Dobot:
             self.wait()
 
     # Wait until the instruction finishes
-    def wait(self):
-        queue_index = self.interface.get_current_queue_index()
+    def wait(self, queue_index=None):
+        # If there are no more instructions in the queue, it will end up
+        # always returning the last instruction - even if it has finished.
+        # Use a zero wait as a non-operation to bypass this limitation
+        self.interface.wait(0)
+
+        if queue_index is None:
+            queue_index = self.interface.get_current_queue_index()
         while True:
-            if self.interface.get_current_queue_index() != queue_index:
+            if self.interface.get_current_queue_index() > queue_index:
                 break
 
             sleep(0.5)
+
+    # Move according to the given path
+    def follow_path(self, path, wait=True):
+        self.interface.stop_queue()
+        queue_index = None
+        for point in path:
+            queue_index = self.interface.set_continous_trajectory_command(1, point[0], point[1], point[2], 50)
+        self.interface.start_queue()
+        if wait:
+            self.wait(queue_index)
+
+    # Move according to the given path
+    def follow_path_relative(self, path, wait=True):
+        self.interface.stop_queue()
+        queue_index = None
+        for point in path:
+            queue_index = self.interface.set_continous_trajectory_command(0,  point[0], point[1], point[2], 50)
+        self.interface.start_queue()
+        if wait:
+            self.wait(queue_index)
