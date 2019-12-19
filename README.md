@@ -15,6 +15,7 @@ cd dobot-python
 python3 lib/test.py
 ```
 
+**Low-level interface**
 ```python
 interface = Interface('/dev/tty.usbserial-0001')
 
@@ -41,6 +42,19 @@ print('I even have a laser!')
 interface.set_end_effector_laser(True, True)
 ```
 
+**High-level abstraction**
+```python
+bot = Bot('/dev/tty.usbserial-0001')
+
+if bot.connected():
+    print('Connected')
+else:
+    print('Not connected')
+
+bot.move_to(50, 50, 50, 0.5)
+bot.slide_to(-50, 10, 20, 0.5)
+```
+
 ### Motivation
 
 The Dobot Magician seems like a fantastic robot arm. But my experience regarding its software and how to get it to work, or even access it, on different platforms have been one of the worst experiences I've had with a product.
@@ -57,9 +71,11 @@ Previous art is https://github.com/luismesas/pydobot which implements a small su
 
 ### Documentation
 
-This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version. It implements the entire protocol.
+This library is currently actively being developed. It targets the [Dobot Magician Communication Protocol v1.1.5](https://download.dobot.cc/product-manual/dobot-magician/pdf/en/Dobot-Communication-Protocol-V1.1.5.pdf) which is the latest version. It implements the entire protocol as a low-level interface.
 
 As often as possible, the names for functions, parameters etc. follow those documented in the communication protocol.
+
+There is also a high-level abstraction which is meant for simple use.
 
 For now, refer to the source code as well as the example programs.
 
@@ -67,7 +83,7 @@ For now, refer to the source code as well as the example programs.
 
 * [x] <del>Implement the entire reference as a low-level API</del>
 * [x] <del>Create examples for all of the functions</del>
-* [ ] Create a high-level API with abstractions for easy use
+* [x] <del>Create a high-level API with abstractions for easy use</del>
 
 ##### Connecting on macOS
 
