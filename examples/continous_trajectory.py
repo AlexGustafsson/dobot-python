@@ -4,9 +4,9 @@ sys.path.insert(0, os.path.abspath('.'))
 
 import math
 
-from lib.dobot import Dobot
+from lib.interface import Interface
 
-bot = Dobot('/dev/tty.SLAB_USBtoUART')
+bot = Interface('/dev/tty.SLAB_USBtoUART')
 
 print('Bot status:', 'connected' if bot.connected() else 'not connected')
 

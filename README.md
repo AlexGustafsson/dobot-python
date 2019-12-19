@@ -16,29 +16,29 @@ python3 lib/test.py
 ```
 
 ```python
-bot = Dobot('/dev/tty.usbserial-0001')
+interface = Interface('/dev/tty.usbserial-0001')
 
-if bot.connected():
+if interface.connected():
     print('Connected')
 else:
     print('Not connected')
 
-device_name = bot.get_device_name()
+device_name = interface.get_device_name()
 print('Hello, my name is {}'.format(device_name))
 
-pose = bot.get_pose()
+pose = interface.get_pose()
 print('I am currently in the following pose:', pose)
 
 print('I can move slow')
-bot.set_jog_joint_params(100, 50)
-bot.set_point_to_point_command(2, 100, 50, 20, 0)
+interface.set_jog_joint_params(100, 50)
+interface.set_point_to_point_command(2, 100, 50, 20, 0)
 
 print('And I can move fast')
-bot.set_joint_parameters(2000, 500)
-bot.set_jog_command(1, 1)
+interface.set_joint_parameters(2000, 500)
+interface.set_jog_command(1, 1)
 
 print('I even have a laser!')
-bot.set_end_effector_laser(True, True)
+interface.set_end_effector_laser(True, True)
 ```
 
 ### Motivation

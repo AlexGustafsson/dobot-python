@@ -1,11 +1,10 @@
 import serial
 import threading
-from time import sleep
 
 from lib.message import Message
 
 
-class Dobot:
+class Interface:
     def __init__(self, port):
         threading.Thread.__init__(self)
         self.lock = threading.Lock()
