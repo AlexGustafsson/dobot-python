@@ -39,8 +39,8 @@ class Message:
         length = bytes[2]
         id = bytes[3]
         control = bytes[4]
-        rw = control & 1
-        is_queued = control & 2
+        rw = (control & 1) == 1
+        is_queued = ((control & 2) >> 1) == 1
         params = bytes[5:-1]
         checksum = bytes[-1]
 
