@@ -222,7 +222,7 @@ class Interface:
         return self.send(request)
 
     def set_point_to_point_common_params(self, velocity_ratio, acceleration_ratio, queue=True):
-        request = Message([0xAA, 0xAA], 2, 84, True, queue, [velocity_ratio, acceleration_ratio], direction='out')
+        request = Message([0xAA, 0xAA], 2, 83, True, queue, [velocity_ratio, acceleration_ratio], direction='out')
         return self.send(request)
 
     def set_point_to_point_command(self, mode, x, y, z, r, queue=True):
