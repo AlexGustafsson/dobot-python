@@ -1,3 +1,5 @@
+from time import sleep
+
 from lib.interface import Interface
 
 
@@ -27,22 +29,40 @@ class Dobot:
     def get_pose(self):
         return self.interface.get_pose()
 
-    def home(self):
-        return self.interface.set_homing_command(0)
+    def home(self, wait=True):
+        self.interface.set_homing_command(0)
+        if wait:
+            self.wait()
 
     # Move to the absolute coordinate, one axis at a time
-    def move_to(self, x, y, z, r):
-        return self.interface.set_point_to_point_command(3, x, y, z, r)
+    def move_to(self, x, y, z, r, wait=True):
+        self.interface.set_point_to_point_command(3, x, y, z, r)
+        if wait:
+            self.wait()
 
     # Slide to the absolute coordinate, shortest possible path
-    def slide_to(self, x, y, z, r):
-        # Moves in Manhattan coordinates
-        return self.interface.set_point_to_point_command(4, x, y, z, r)
+    def slide_to(self, x, y, z, r, wait=True):
+        self.interface.set_point_to_point_command(4, x, y, z, r)
+        if wait:
+            self.wait()
 
     # Move to the absolute coordinate, one axis at a time
-    def move_to_relative(self, x, y, z, r):
-        return self.interface.set_point_to_point_command(7, x, y, z, r)
+    def move_to_relative(self, x, y, z, r, wait=True):
+        self.interface.set_point_to_point_command(7, x, y, z, r)
+        if wait:
+            self.wait()
 
     # Slide to the relative coordinate, one axis at a time
-    def slide_to_relative(self, x, y, z, r):
-        return self.interface.set_point_to_point_command(6, x, y, z, r)
+    def slide_to_relative(self, x, y, z, r, wait=True):
+        self.interface.set_point_to_point_command(6, x, y, z, r)
+        if wait:
+            self.wait()
+
+    # Wait until the instruction finishes
+    def wait(self):
+        queue_index = self.interface.get_current_queue_index()
+        while True:
+            if self.interface.get_current_queue_index() != queue_index:
+                break
+
+            sleep(0.5)
