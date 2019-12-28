@@ -1,5 +1,5 @@
 # Dobot Python
-### A cross-platform low-level interface and high-level API to the Dobot Magician robotic arm written in Python 3
+### A cross-platform low-level interface and high-level API for the Dobot Magician robotic arm written in Python 3
 ***
 
 ### Setting up
