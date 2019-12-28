@@ -1,5 +1,5 @@
 # Dobot Python
-### A cross-platform low-level interface to the Dobot Magician robotic arm written in Python 3
+### A cross-platform low-level interface and high-level API to the Dobot Magician robotic arm written in Python 3
 ***
 
 ### Setting up
@@ -84,6 +84,7 @@ For now, refer to the source code as well as the example programs.
 * [x] <del>Implement the entire reference as a low-level API</del>
 * [x] <del>Create examples for all of the functions</del>
 * [x] <del>Create a high-level API with abstractions for easy use</del>
+* [ ] Create a high-level abstraction for engraving grayscale images
 
 ##### Connecting on macOS
 
