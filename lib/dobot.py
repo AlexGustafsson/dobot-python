@@ -14,6 +14,8 @@ class Dobot:
         self.interface.set_point_to_point_jump_params(10, 10)
         self.interface.set_point_to_point_joint_params([50, 50, 50, 50], [50, 50, 50, 50])
         self.interface.set_point_to_point_coordinate_params(50, 50, 50, 50)
+
+        # velocity and acceleration ratio
         self.interface.set_point_to_point_common_params(50, 50)
         self.interface.set_point_to_point_jump2_params(5, 5, 5)
 
@@ -28,6 +30,62 @@ class Dobot:
 
     def get_pose(self):
         return self.interface.get_pose()
+
+    def printq(self):
+        pose = self.get_pose()
+        print('q:   ', ' '.join([f'{q:8.1f}' for q in pose[4:]]))
+
+    def printx(self):
+        pose = self.get_pose()
+        print('x:   ', ' '.join([f'{q:8.1f}' for q in pose[:4]]))
+
+
+    alarm_dict = {
+        0x00: 'reset occurred',
+        0x01: 'undefined instruction',
+        0x02: 'file system error',
+        0x03: 'communications error between MCU and FPGA',
+        0x04: 'angle sensor error',
+
+        0x10: 'plan: pose is abnormal',
+        0x11: 'plan: pose is out of workspace',
+        0x12: 'plan: joint limit',
+        0x13: 'plan: repetitive points',
+        0x14: 'plan: arc input parameter',
+        0x15: 'plan: jump parameter',
+
+        0x20: 'motion: kinematic singularity',
+        0x21: 'motion: out of workspace',
+        0x22: 'motion: inverse limit',
+
+        0x30: 'axis 1 overspeed',
+        0x31: 'axis 2 overspeed',
+        0x32: 'axis 3 overspeed',
+        0x33: 'axis 4 overspeed',
+
+        0x40: 'axis 1 positive limit',
+        0x41: 'axis 1 negative limit',
+        0x42: 'axis 2 positive limit',
+        0x43: 'axis 2 negative limit',
+        0x44: 'axis 3 positive limit',
+        0x45: 'axis 3 negative limit',
+        0x46: 'axis 4 positive limit',
+        0x47: 'axis 4 negative limit',
+
+        0x50: 'axis 1 lost steps',
+        0x51: 'axis 2 lost steps',
+        0x52: 'axis 3 lost steps',
+        0x53: 'axis 4 lost steps',
+    }
+
+    def print_alarms(self, a):
+        alarms = []
+        for i, x in enumerate(a):
+            for j in range(8):
+                if x & (1<<j) > 0:
+                    alarms.append(8*i + j)
+        for alarm in alarms:
+            print('ALARM:', self.alarm_dict[alarm])
 
     def home(self, wait=True):
         self.interface.set_homing_command(0)
