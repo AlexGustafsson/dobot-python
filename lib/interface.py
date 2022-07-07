@@ -81,7 +81,7 @@ class Interface:
         request = Message([0xAA, 0xAA], 2, 21, True, False, [], direction='out')
         return self.send(request)
 
-    def get_homing_paramaters(self):
+    def get_homing_parameters(self):
         request = Message([0xAA, 0xAA], 2, 30, False, False, [], direction='out')
         return self.send(request)
 

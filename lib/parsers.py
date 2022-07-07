@@ -29,7 +29,7 @@ parsers = {
     11: [None, None, None, lambda x: list(struct.pack('<Bff', *x))],
     13: [lambda x: struct.unpack('<f', bytearray(x))[0], None, None, None],
     # Alarm
-    20: [lambda x: struct.unpack('<B' * 16, bytearray(x))[0], None, None, None],
+    20: [lambda x: struct.unpack('<' + 'B' * 16, bytearray(x)), None, None, None],
     21: [None, None, None, None],
     # Homing function
     30: [lambda x: struct.unpack('<' + 'f' * 4, bytearray(x)), None, lambda x: struct.unpack('<Q', bytearray(x))[0], lambda x: list(struct.pack('<' + 'f' * 4, *x))],
